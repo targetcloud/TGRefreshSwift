@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         //buildSenior()
         
         //最优推荐用法
-        builderRecommend5()
+        builderRecommend4()
     }
 
     @objc fileprivate func loadData(){
