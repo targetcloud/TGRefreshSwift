@@ -7,7 +7,7 @@
 ![Build](https://img.shields.io/badge/build-passing-green.svg)
 ![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/Pastel.svg?style=flat)
-![Cocoapod](https://img.shields.io/badge/pod-v0.0.1-blue.svg)
+![Cocoapod](https://img.shields.io/badge/pod-v0.0.2-blue.svg)
 
 
 ## OC version
@@ -38,7 +38,7 @@ https://github.com/targetcloud/TGRefreshOC
 
 首先写上这一句
 ```swift
-#import TGRefreshSwift
+import TGRefreshSwift
 ```
 如果需要，在你的控制器中加上一句
 ```swift
