@@ -52,7 +52,9 @@ class TGRefreshSwift: UIControl {
     fileprivate var bgImageView: UIImageView?{//通过构造进来，只有一次机会设置
         didSet{
             if bgImageView != nil{
-                addSubview(bgImageView!)
+                insertSubview(bgImageView!, at: 0)
+                bgImageView?.alpha = 0.9
+                bgImageView?.translatesAutoresizingMaskIntoConstraints = false
                 addConstraint(NSLayoutConstraint(item: bgImageView!,attribute: .left,relatedBy: .equal,toItem: self,attribute: .left,multiplier: 1.0,constant: 0))
                 addConstraint(NSLayoutConstraint(item: bgImageView!,attribute: .right,relatedBy: .equal,toItem: self,attribute: .right,multiplier: 1.0,constant: 0))
                 addConstraint(NSLayoutConstraint(item: bgImageView!,attribute: .bottom,relatedBy: .equal,toItem: self,attribute: .bottom,multiplier: 1.0,constant: 0))
@@ -187,7 +189,7 @@ class TGRefreshSwift: UIControl {
     public var resultLabelFontSize: CGFloat = 12{
         didSet{
             resultLabelFontSize = resultLabelFontSize < 9 ? 9 : ((resultLabelFontSize > 20) ? 20 : resultLabelFontSize)
-            self.resultLabel.font = UIFont.systemFont(ofSize: tipLabelFontSize)
+            //self.resultLabel.font = UIFont.systemFont(ofSize: tipLabelFontSize)
         }
     }
     
@@ -349,7 +351,7 @@ class TGRefreshSwift: UIControl {
                             width: scrollview.bounds.width,
                             height:height)//拉多少高控件就变成多少高
         let targetY: CGFloat = -(scrollview.contentInset.top + refreshHeight)
-        print ("<---刷新控件 contentInsetTop>\(scrollview.contentInset.top)<  height>\(height)<   offsetY>\(offsetY)<    targetY>\(targetY)<    refreshState>\(refreshState)< ---")
+        //print ("<---刷新控件 contentInsetTop>\(scrollview.contentInset.top)<  height>\(height)<   offsetY>\(offsetY)<    targetY>\(targetY)<    refreshState>\(refreshState)< ---")
         
         switch self.kind {
         case .QQ:
@@ -394,7 +396,7 @@ class TGRefreshSwift: UIControl {
     }
     
     public func beginRefreshing() {
-        print("<---刷新控件 beginRefreshing 开始刷新")
+        //print("<---刷新控件 beginRefreshing 开始刷新")
         guard self.sv != nil else {
             return
         }
@@ -405,7 +407,7 @@ class TGRefreshSwift: UIControl {
     }
     
     public func endRefreshing() {
-        print("<---刷新控件 endRefreshing 结束刷新")
+        //print("<---刷新控件 endRefreshing 结束刷新")
         guard self.sv != nil else {
             return
         }
@@ -579,7 +581,7 @@ class TGRefreshSwift: UIControl {
         }
     }
     
-    //像皮筋用
+    //橡皮筋等样式需要自己绘制的情况下用
     override func draw(_ rect: CGRect) {
         switch (self.kind) {
         case .QQ:

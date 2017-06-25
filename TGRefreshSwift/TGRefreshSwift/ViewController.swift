@@ -99,11 +99,15 @@ extension ViewController{
     
     //扩展用法
     fileprivate func builderRecommend5(){
-        self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior),80){(refresh) in
+        self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior),44,UIImageView(image: UIImage(named: "profile_cover_background")) ){(refresh) in
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
-                .tg_fadeinTime(2)
                 .tg_verticalAlignment(.Midden)
-                .tg_fadeoutTime(1)
+                .tg_tinColor(UIColor.white)
+                .tg_tipLabelFontSize(13)
+                .tg_resultLabelFontSize(15)
+                .tg_tipStyle(.tipInfoWhite)
+                .tg_fadeinTime(1)
+                .tg_fadeoutTime(0.5)
                 .tg_bgColor(UIColor(white:0.8,alpha:1))
         }
         self.tv.tg_header?.beginRefreshing()
