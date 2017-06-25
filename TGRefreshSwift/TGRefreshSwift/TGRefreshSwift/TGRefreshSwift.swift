@@ -25,13 +25,18 @@ enum TGRefreshAlignment: Int {
     case Bottom
 }
 
-enum TGTipStyle: Int {
+enum TGFailTipStyle: Int {
     case tipForbiddenGray = 0
     case tipForbiddenWhite
     case tipInfoGray
     case tipInfoRed
     case tipInfoWhite
-    case tipOK
+}
+
+enum TGOKTipStyle: Int {
+    case tipOKNormal = 0
+    case tipOKGray
+    case tipOKWhite
 }
 
 class TGRefreshSwift: UIControl {
@@ -53,7 +58,7 @@ class TGRefreshSwift: UIControl {
         didSet{
             if bgImageView != nil{
                 insertSubview(bgImageView!, at: 0)
-                bgImageView?.alpha = 0.9
+                bgImageView?.alpha = 0.7
                 bgImageView?.translatesAutoresizingMaskIntoConstraints = false
                 addConstraint(NSLayoutConstraint(item: bgImageView!,attribute: .left,relatedBy: .equal,toItem: self,attribute: .left,multiplier: 1.0,constant: 0))
                 addConstraint(NSLayoutConstraint(item: bgImageView!,attribute: .right,relatedBy: .equal,toItem: self,attribute: .right,multiplier: 1.0,constant: 0))
@@ -67,7 +72,10 @@ class TGRefreshSwift: UIControl {
     fileprivate var tipLabelCenterXConstraint: NSLayoutConstraint?//往右偏margin +
     
     /** 刷新失败时的提示图标 */
-    public var tipStyle:TGTipStyle = .tipInfoGray
+    public var tipFailStyle: TGFailTipStyle = .tipInfoGray
+    
+    /** 刷新成功时的提示图标 */
+    public var tipOKStyle: TGOKTipStyle = .tipOKNormal
     
     /** 忽略初始的InsetTop,用于刷新控件所画的位置进行定位 */
     public var ignoreScrollViewContentInsetTop: Bool = false
@@ -416,7 +424,7 @@ class TGRefreshSwift: UIControl {
             animating = false
             self.tipLabel.text = self.isSuccess ? self.refreshSuccessStr : self.refreshFailStr
             self.tipLabel.text = self.isShowSuccesOrFailInfo ? self.tipLabel.text : " "
-            self.tipIcon.image = self.isSuccess ? self.getImage("tipOk@2x") : self.getImage("\(self.tipStyle)@2x")
+            self.tipIcon.image = self.isSuccess ? self.getImage("\(self.tipOKStyle)@2x") : self.getImage("\(self.tipFailStyle)@2x")
             
             self.tipLabel.sizeToFit()
             self.tipIcon.sizeToFit()
@@ -787,8 +795,14 @@ class TGRefreshSwift: UIControl {
     }
     
     @discardableResult
-    public func tg_tipStyle(_ style: TGTipStyle) -> TGRefreshSwift {
-        self.tipStyle = style
+    public func tg_tipFailStyle(_ style: TGFailTipStyle) -> TGRefreshSwift {
+        self.tipFailStyle = style
+        return self
+    }
+    
+    @discardableResult
+    public func tg_tipOKStyle(_ style: TGOKTipStyle) -> TGRefreshSwift {
+        self.tipOKStyle = style
         return self
     }
     

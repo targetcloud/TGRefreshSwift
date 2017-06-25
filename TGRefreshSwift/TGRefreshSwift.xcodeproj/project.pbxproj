@@ -110,7 +110,8 @@
 				TargetAttributes = {
 					6A0210A21EFDC797001E8F5B = {
 						CreatedOnToolsVersion = 8.3.3;
-						ProvisioningStyle = Automatic;
+						DevelopmentTeam = 38C5J53JU9;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -276,10 +277,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 38C5J53JU9;
 				INFOPLIST_FILE = TGRefreshSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.targetcloud.TGRefreshSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "09c8f1ec-443c-4108-8cdd-8c8b1ee6b2af";
+				PROVISIONING_PROFILE_SPECIFIER = allapp;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -288,10 +292,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 38C5J53JU9;
 				INFOPLIST_FILE = TGRefreshSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.targetcloud.TGRefreshSwift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "09c8f1ec-443c-4108-8cdd-8c8b1ee6b2af";
+				PROVISIONING_PROFILE_SPECIFIER = allapp;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -315,6 +322,7 @@
 				6A0210B71EFDC797001E8F5B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
