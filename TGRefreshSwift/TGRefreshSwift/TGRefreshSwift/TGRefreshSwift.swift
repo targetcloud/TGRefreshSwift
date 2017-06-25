@@ -37,6 +37,8 @@ public enum TGOKTipStyle: Int {
     case tipOKNormal = 0
     case tipOKGray
     case tipOKWhite
+    case tipOKStyleWhite
+    case tipOKStyleGray
 }
 
 open class TGRefreshSwift: UIControl {
