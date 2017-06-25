@@ -8,24 +8,24 @@
 
 import UIKit
 
-enum TGRefreshState: Int {
+public enum TGRefreshState: Int {
     case Normal = 0     //默认
     case Pulling        //准备刷新
     case Refreshing     //正在刷新
 }
 
-enum TGRefreshKind: Int {
+public enum TGRefreshKind: Int {
     case QQ = 0
     case Common
 }
 
-enum TGRefreshAlignment: Int {
+public enum TGRefreshAlignment: Int {
     case Top = 0
     case Midden
     case Bottom
 }
 
-enum TGFailTipStyle: Int {
+public enum TGFailTipStyle: Int {
     case tipForbiddenGray = 0
     case tipForbiddenWhite
     case tipInfoGray
@@ -33,13 +33,13 @@ enum TGFailTipStyle: Int {
     case tipInfoWhite
 }
 
-enum TGOKTipStyle: Int {
+public enum TGOKTipStyle: Int {
     case tipOKNormal = 0
     case tipOKGray
     case tipOKWhite
 }
 
-class TGRefreshSwift: UIControl {
+open class TGRefreshSwift: UIControl {
     
     fileprivate var refreshHeight: CGFloat = 40//起始高度，通过构造进来，只有一次机会设置
     fileprivate let kDragHeight: CGFloat = 90.0
@@ -247,7 +247,7 @@ class TGRefreshSwift: UIControl {
         return iv
     }()
     
-    override func willMove(toSuperview newSuperview: UIView?) {
+    override open func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         if let fatherView = newSuperview as? UIScrollView {
             self.initInsetTop = fatherView.contentInset.top
@@ -344,7 +344,7 @@ class TGRefreshSwift: UIControl {
         }
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let scrollview = self.sv ,keyPath == "contentOffset" else {
             return
         }
@@ -488,7 +488,7 @@ class TGRefreshSwift: UIControl {
         }
     }
     
-    override func removeFromSuperview() {//removeFromSuperview 与 deinit共存是否有问题，待测试
+    override open func removeFromSuperview() {//removeFromSuperview 与 deinit共存是否有问题，待测试
         //superview?.removeObserver(self, forKeyPath: "contentOffset")
         self.sv?.removeObserver(self, forKeyPath: "contentOffset")
         super.removeFromSuperview()
@@ -557,7 +557,7 @@ class TGRefreshSwift: UIControl {
         addConstraint(NSLayoutConstraint(item: self.tipIcon,attribute: .centerY,relatedBy: .equal,toItem: self.indicator,attribute: .centerY,multiplier: 1.0,constant: 0))
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         //fatalError("init(coder:) has not been implemented")
         super.init(coder: aDecoder)
         setupUI()
@@ -568,7 +568,7 @@ class TGRefreshSwift: UIControl {
         return UIImage(contentsOfFile: (currentBundle?.path(forResource: name, ofType: "png"))!)!
     }
     
-    override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         self.tipLabel.sizeToFit()
         
@@ -590,7 +590,7 @@ class TGRefreshSwift: UIControl {
     }
     
     //橡皮筋等样式需要自己绘制的情况下用
-    override func draw(_ rect: CGRect) {
+    override open func draw(_ rect: CGRect) {
         switch (self.kind) {
         case .QQ:
             break
@@ -830,7 +830,7 @@ extension UIScrollView{
         static var TGRefreshSwiftHeaderKey = "TGRefreshSwiftHeaderKey"
     }
     
-    var tg_header: TGRefreshSwift?{
+    open var tg_header: TGRefreshSwift?{
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.TGRefreshSwiftHeaderKey) as? TGRefreshSwift
         }
