@@ -510,7 +510,7 @@ class TGRefreshSwift: UIControl {
         }
     }
     
-    public class func refresh(_ height:CGFloat = 40 , _ bgImageView: UIImageView? = nil, _ target: Any? = nil, _ action: Selector? = nil, _ config:((_ refresh:TGRefreshSwift)->())?) -> TGRefreshSwift{
+    public class func refresh(_ target: Any? = nil, _ action: Selector? = nil, _ height:CGFloat = 40 , _ bgImageView: UIImageView? = nil, _ config:((_ refresh:TGRefreshSwift)->())? = nil) -> TGRefreshSwift{
         let refresh = TGRefreshSwift(target,action,config)
         refresh.refreshHeight = height
         refresh.bgImageView = bgImageView

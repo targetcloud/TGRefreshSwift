@@ -25,7 +25,17 @@ class ViewController: UIViewController {
         
         self.automaticallyAdjustsScrollViewInsets=false
         
-        builderOrdinary()
+        //一般用法
+        //builderOrdinary()
+        
+        //简单用法
+        //builderSimple()
+        
+        //高级用法
+        //buildSenior()
+        
+        //最优推荐用法
+        builderRecommend5()
     }
 
     @objc fileprivate func loadData(){
@@ -42,9 +52,95 @@ class ViewController: UIViewController {
     
     @objc fileprivate func loadDataSenior(){
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
-            self.tv.tg_header?.refreshResultStr = "成功刷新到10条数据"
+            let isSuccess = arc4random_uniform(3) % 2 == 0
+            let count = isSuccess ? arc4random_uniform(20) : 0
+            self.dataCount = count>0 ? Int(count) : self.dataCount
+            self.tv.tg_header?.refreshResultStr = count>0 ? "成功刷新到\(count)条数据,来自TGRefreshSwift" : "请先在Github上Star本控件:-）"
+            self.tv.tg_header?.isSuccess = isSuccess
+            isSuccess ? self.tv.reloadData() : ()
             self.tv.tg_header?.endRefreshing()
         }
+    }
+}
+
+extension ViewController{
+    //QQ效果
+    fileprivate func builderRecommend(){
+        self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior))
+        self.tv.tg_header?.beginRefreshing()
+    }
+    
+    //QQ效果
+    fileprivate func builderRecommend2(){
+        self.tv.tg_header = TGRefreshSwift.refresh()
+        self.tv.tg_header?.addTarget(self, action: #selector(loadDataSenior), for: .valueChanged)
+        self.tv.tg_header?.beginRefreshing()
+    }
+    
+    //一般平常效果
+    fileprivate func builderRecommend3(){
+        self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(refresh) in
+            refresh.tg_kind(.Common)
+        }
+        self.tv.tg_header?.beginRefreshing()
+    }
+    
+    //更多配置
+    fileprivate func builderRecommend4(){
+        self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(refresh) in
+            refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
+                .tg_fadeinTime(2)
+                .tg_verticalAlignment(.Midden)
+                .tg_fadeoutTime(1)
+                .tg_bgColor(UIColor(white:0.8,alpha:1))
+        }
+        self.tv.tg_header?.beginRefreshing()
+    }
+    
+    //扩展用法
+    fileprivate func builderRecommend5(){
+        self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior),80){(refresh) in
+            refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
+                .tg_fadeinTime(2)
+                .tg_verticalAlignment(.Midden)
+                .tg_fadeoutTime(1)
+                .tg_bgColor(UIColor(white:0.8,alpha:1))
+        }
+        self.tv.tg_header?.beginRefreshing()
+    }
+}
+
+extension ViewController{
+    fileprivate func buildSenior(){
+        self.tv.tg_header = TGRefreshSwift(self, #selector(loadDataSenior)) { (refresh) in
+            refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
+                .tg_bgColor(UIColor(white:0.8,alpha:1))
+                .tg_refreshResultTextColor(UIColor.white)
+        }
+        self.tv.tg_header?.beginRefreshing()
+    }
+}
+
+extension ViewController{
+    fileprivate func builderSimple(){
+        self.refreshCtl = TGRefreshSwift(self, #selector(loadData)) { (refresh) in
+            refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
+                .tg_bgColor(UIColor(white:0.8,alpha:1))
+                .tg_refreshResultTextColor(UIColor.white)
+        }
+        tv.addSubview(refreshCtl!)
+        self.refreshCtl?.beginRefreshing()
+    }
+    
+    fileprivate func builderSimple2(){
+        self.refreshCtl = TGRefreshSwift{ (refresh) in
+            refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
+                .tg_bgColor(UIColor(white:0.8,alpha:1))
+                .tg_refreshResultTextColor(UIColor.white)
+        }
+        tv.addSubview(refreshCtl!)
+        refreshCtl?.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        refreshCtl?.beginRefreshing()
     }
 }
 
