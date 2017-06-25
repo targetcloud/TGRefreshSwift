@@ -245,10 +245,10 @@ class TGRefreshSwift: UIControl {
             self.sv = fatherView
             self.backgroundColor = self.bgColor ?? self.sv?.backgroundColor
             //self.backgroundColor = randomColor()//测试代码
-            //            self.frame = CGRect(x: 0,
-            //                                y: self.ignoreScrollViewContentInsetTop  ? -refreshHeight : -refreshHeight-initInsetTop,
-            //                                width: fatherView.bounds.width,
-            //                                height:refreshHeight)
+            self.frame = CGRect(x: 0,
+                                            y: self.ignoreScrollViewContentInsetTop  ? -refreshHeight : -refreshHeight-initInsetTop,
+                                            width: fatherView.bounds.width,
+                                            height:refreshHeight)
             self.clipsToBounds = true
             fatherView.addObserver(self, forKeyPath: "contentOffset", options: .new, context: nil)//options: []
         }
@@ -273,9 +273,9 @@ class TGRefreshSwift: UIControl {
                             self.tipLabel.text = self.refreshingStr
                             self.tipLabel.isHidden = false
                             self.tipIcon.isHidden = true
-                            if !self.isShowSuccesOrFailInfo{
-                                self.tipLabelCenterXConstraint?.constant = self.tipLabel.frame.size.width * 0.5 + self.margin * 2
-                            }
+//                            if !self.isShowSuccesOrFailInfo{
+//                                self.tipLabelCenterXConstraint?.constant = self.tipLabel.frame.size.width * 0.5 + self.margin * 2
+//                            }
                             self.indicator.startAnimating()
                             self.sv?.contentOffset = CGPoint(x: 0, y: -(self.refreshHeight + self.initInsetTop))
                         })
@@ -434,6 +434,8 @@ class TGRefreshSwift: UIControl {
             UIView .animate(withDuration: 0.25, animations: {
                 if self.isShowSuccesOrFailInfo{
                     self.tipLabel.alpha = 1
+                }else{
+                    self.tipLabelCenterXConstraint?.constant = self.tipLabel.frame.size.width * 0.5 + self.margin * 2
                 }
             }) { (_) in
                 UIView .animate(withDuration: 0.25, animations: {
@@ -461,12 +463,14 @@ class TGRefreshSwift: UIControl {
                                     self.refreshResultStr = ""
                                     self.tipLabelCenterXConstraint?.constant = self.margin
                                     self.isSuccess = true
+                                    self.tipLabel.alpha = 1
                                 })
                             })
                         }else{
                             self.refreshResultStr = ""
                             self.tipLabelCenterXConstraint?.constant = self.margin
                             self.isSuccess = true
+                            self.tipLabel.alpha = 1
                         }
                     }
                 })
@@ -557,19 +561,21 @@ class TGRefreshSwift: UIControl {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.tipLabel.sizeToFit()
+        
         switch self.kind {
         case .QQ:
             self.alpha = self.frame.size.height/refreshHeight
-            self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5) * 0.5
         case .Common:
-            switch self.verticalAlignment {
-            case .Top:
-                self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5)
-            case .Midden:
-                self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5) * 0.5
-            case .Bottom:
-                self.tipLabelBottomConstraint?.constant = -(margin)
-            }
+            break
+        }
+        
+        switch self.verticalAlignment {
+        case .Top:
+            self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5)
+        case .Midden:
+            self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5) * 0.5
+        case .Bottom:
+            self.tipLabelBottomConstraint?.constant = -(margin)
         }
     }
     
