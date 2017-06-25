@@ -97,6 +97,9 @@ DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
 /** 刷新失败时的提示图标 */
 public var tipStyle:TGTipStyle = .tipInfoGray
     
+/** 刷新成功时的提示图标 */
+public var tipOKStyle: TGOKTipStyle = .tipOKNormal
+    
 /** 忽略初始的InsetTop,用于刷新控件所画的位置进行定位 */
 public var ignoreScrollViewContentInsetTop: Bool = false
     
