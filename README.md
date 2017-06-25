@@ -71,7 +71,10 @@ self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(ref
 ### 扩展用法
 除了传入数据加载事件、配置信息外，还可以传入刷新控件的初始高度（默认40）与背景图
 ```swift
-self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior),44,UIImageView(image: UIImage(named: "profile_cover_background")) ){(refresh) in
+self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior),
+44,
+UIImageView(image: UIImage(named: "profile_cover_background")) 
+){(refresh) in
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
                 .tg_verticalAlignment(.Midden)
                 .tg_tinColor(UIColor.white)
