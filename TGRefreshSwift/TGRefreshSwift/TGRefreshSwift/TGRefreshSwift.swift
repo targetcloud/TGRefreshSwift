@@ -189,7 +189,6 @@ class TGRefreshSwift: UIControl {
     public var resultLabelFontSize: CGFloat = 12{
         didSet{
             resultLabelFontSize = resultLabelFontSize < 9 ? 9 : ((resultLabelFontSize > 20) ? 20 : resultLabelFontSize)
-            //self.resultLabel.font = UIFont.systemFont(ofSize: tipLabelFontSize)
         }
     }
     
@@ -451,6 +450,7 @@ class TGRefreshSwift: UIControl {
                     if self.refreshState == .Refreshing {
                         self.refreshState = .Normal
                         if (self.refreshResultStr.characters.count > 0){
+                            self.resultLabel.font = UIFont.systemFont(ofSize: self.resultLabelFontSize)
                             self.resultLabel.alpha = 0.5
                             self.resultLabel.transform = CGAffineTransform(translationX: 0, y: -self.refreshResultHeight)
                             self.resultLabel.text = self.refreshResultStr
