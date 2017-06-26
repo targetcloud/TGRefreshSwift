@@ -1,4 +1,4 @@
-<img src="https://github.com/targetcloud/TGRefreshSwift/blob/master/Banners.png" width = "15%" hight = "15%"/>
+<img src="https://github.com/targetcloud/TGRefreshSwift/blob/master/Banners.png" width = "12%" hight = "12%"/>
 
   ## TGRefreshSwift
 弹簧、橡皮筋下拉刷新控件，类似QQ下拉刷新控件，但比QQ 更强，同时支持其他样式，目前总共2种样式，后续不断添加中...
@@ -215,6 +215,6 @@ pod 'TGRefreshSwift'
 
 如果你觉得赞，请Star
 
-<img src="https://github.com/targetcloud/TGRefreshSwift/blob/master/logo.png" width = "20%" hight = "20%"/>
+<img src="https://github.com/targetcloud/TGRefreshSwift/blob/master/logo.png" width = "12%" hight = "12%"/>
 
 
