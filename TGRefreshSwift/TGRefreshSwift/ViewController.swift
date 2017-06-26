@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     @objc fileprivate func loadData(){
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
             let isSuccess = arc4random_uniform(3) % 2 == 0
-            let count = isSuccess ? arc4random_uniform(20) : 0
+            let count = isSuccess ? arc4random_uniform(20)+1 : 0
             self.dataCount = count>0 ? Int(count) : self.dataCount
             self.refreshCtl?.refreshResultStr = count>0 ? "成功刷新到\(count)条数据" : "没有更新数据"
             self.refreshCtl?.isSuccess = isSuccess
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
     @objc fileprivate func loadDataSenior(){
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
             let isSuccess = arc4random_uniform(3) % 2 == 0
-            let count = isSuccess ? arc4random_uniform(20) : 0
+            let count = isSuccess ? arc4random_uniform(20)+1 : 0
             self.dataCount = count>0 ? Int(count) : self.dataCount
             self.tv.tg_header?.refreshResultStr = count>0 ? "成功刷新到\(count)条数据,来自TGRefreshSwift" : "请先在Github上Star本控件:-）"
             self.tv.tg_header?.isSuccess = isSuccess

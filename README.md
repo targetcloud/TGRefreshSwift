@@ -104,7 +104,7 @@ self.tv.tg_header?.endRefreshing()
 //示例代码
 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
             let isSuccess = arc4random_uniform(3) % 2 == 0
-            let count = isSuccess ? arc4random_uniform(20) : 0
+            let count = isSuccess ? arc4random_uniform(20)+1 : 0
             self.dataCount = count>0 ? Int(count) : self.dataCount
             self.tv.tg_header?.refreshResultStr = count>0 ? "成功刷新到\(count)条数据,来自TGRefreshSwift" : "请先在Github上Star本控件:-）"
             self.tv.tg_header?.isSuccess = isSuccess
