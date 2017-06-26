@@ -46,19 +46,19 @@ import TGRefreshSwift
 self.automaticallyAdjustsScrollViewInsets=false
 ```
 
-### QQ效果(常用、一句话)
+#### QQ效果(常用、一句话)
 ```swift
 self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior))
 ```
 
-### 普通效果
+#### 普通效果
 ```swift
 self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(refresh) in
             refresh.tg_kind(.Common)
         }
 ```
 
-### 更多配置，使用链式编程配置
+#### 更多配置，使用链式编程配置
 ```swift
     self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(refresh) in
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
@@ -69,7 +69,7 @@ self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(ref
         }
 ```
 
-### 扩展用法
+#### 扩展用法
 除了传入数据加载事件、配置信息外，还可以传入刷新控件的初始高度（默认40）与背景图
 ```swift
 self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior),
@@ -89,17 +89,17 @@ UIImageView(image: UIImage(named: "profile_cover_background"))
         }
 ```
 
-### 开始刷新
+#### 开始刷新
 ```swift
 self.tv.tg_header?.beginRefreshing()
 ```
 
-### （网络请求等情况得到数据后）结束刷新
+#### （网络请求等情况得到数据后）结束刷新
 ```swift
 self.tv.tg_header?.endRefreshing()
 ```
 
-### 结束刷新时的回显
+#### 结束刷新时的回显
 ```swift
 //示例代码
 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
@@ -113,7 +113,7 @@ DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
         }
 ```
 
-### 可以配置的属性
+#### 可以配置的属性
 ``` swift
 /** 刷新失败时的提示图标 */
 public var tipStyle:TGTipStyle = .tipInfoGray
@@ -190,7 +190,7 @@ public var resultLabelFontSize: CGFloat = 12
 ```
 #### 使用链式编程配置时，请在所有属性前加tg_前缀即可
 
-### 更多使用配置组合效果请下载本项目或fork本项目查看
+### 更多使用配置组合效果请download本项目或fork本项目查看
 
 ## 运行效果
 ![](https://github.com/targetcloud/TGRefreshSwift/blob/master/gif.gif) 
