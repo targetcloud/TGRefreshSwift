@@ -44,7 +44,7 @@ open class TGRefreshSwift: UIControl {
         didSet{
             if bgImageView != nil{
                 insertSubview(bgImageView!, at: 0)
-                bgImageView?.alpha = 0.7
+                bgImageView?.alpha = 0.5
                 bgImageView?.translatesAutoresizingMaskIntoConstraints = false
                 addConstraint(NSLayoutConstraint(item: bgImageView!,attribute: .left,relatedBy: .equal,toItem: self,attribute: .left,multiplier: 1.0,constant: 0))
                 addConstraint(NSLayoutConstraint(item: bgImageView!,attribute: .right,relatedBy: .equal,toItem: self,attribute: .right,multiplier: 1.0,constant: 0))
@@ -233,6 +233,7 @@ open class TGRefreshSwift: UIControl {
                                         type:self.indicatorStyle,
                                         color:self.tinColor)
         self.addSubview(indicator)
+        //self.insertSubview(indicator, at: 0)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         self.addConstraint(NSLayoutConstraint(item: indicator,attribute: .centerY,relatedBy: .equal,toItem: self.tipLabel,attribute: .centerY,multiplier: 1.0,constant: 0))
         self.indicatorRightConstraint = NSLayoutConstraint(item: indicator,attribute: .right,relatedBy: .equal,toItem: self.tipLabel,attribute: .left,multiplier: 1.0,constant: -self.margin)
@@ -243,6 +244,7 @@ open class TGRefreshSwift: UIControl {
     private lazy var tipIndicator:TGIndicatorView = {
         let tipindicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5))
         self.addSubview(tipindicator)
+        //self.insertSubview(tipindicator, at: 0)
         tipindicator.translatesAutoresizingMaskIntoConstraints = false
         self.addConstraint(NSLayoutConstraint(item: tipindicator,attribute: .centerY,relatedBy: .equal,toItem: self.indicator,attribute: .centerY,multiplier: 1.0,constant: 0))
         self.addConstraint(NSLayoutConstraint(item: tipindicator,attribute: .centerX,relatedBy: .equal,toItem: self.indicator,attribute: .centerX,multiplier: 1.0,constant: 0))
@@ -291,6 +293,7 @@ open class TGRefreshSwift: UIControl {
                             self.tipLabel.text = self.refreshingStr
                             self.tipLabel.isHidden = false
                             self.tipIcon.isHidden = true
+                            self.indicator.type = self.indicatorStyle
                             self.indicator.startAnimating()
                             self.sv?.contentOffset = CGPoint(x: 0, y: -(self.refreshHeight + self.initInsetTop))
                         })
@@ -337,6 +340,7 @@ open class TGRefreshSwift: UIControl {
                     tipLabel.text = self.refreshingStr
                     tipLabel.isHidden = false
                     tipIcon.isHidden = true
+                    indicator.type = self.indicatorStyle
                     indicator.startAnimating()
                     UIView .animate(withDuration: 0.25, animations: {
                         self.sv?.contentInset.top += self.refreshHeight

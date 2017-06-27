@@ -91,6 +91,7 @@ extension ViewController{
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
                 .tg_fadeinTime(2)
                 .tg_verticalAlignment(.Midden)
+                .tg_indicatorStyle(.squareGridPulse)
                 .tg_fadeoutTime(1)
                 .tg_bgColor(UIColor(white:1,alpha:1))
         }
@@ -107,9 +108,10 @@ extension ViewController{
                 .tg_resultLabelFontSize(15)
                 .tg_tipFailStyle(.ballScale)
                 .tg_tipOKStyle(.ballScale)
+                .tg_indicatorStyle(.orbit)
                 .tg_fadeinTime(1)
                 .tg_fadeoutTime(0.5)
-                .tg_bgColor(UIColor(white:1,alpha:1))
+                .tg_bgColor(UIColor(white:0.5,alpha:1))
         }
         self.tv.tg_header?.beginRefreshing()
     }
