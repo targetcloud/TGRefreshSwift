@@ -7,7 +7,7 @@
 ![Build](https://img.shields.io/badge/build-passing-green.svg)
 ![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/Pastel.svg?style=flat)
-![Cocoapod](https://img.shields.io/badge/pod-v0.0.4-blue.svg)
+![Cocoapod](https://img.shields.io/badge/pod-v0.0.5-blue.svg)
 
 
 ## OC version
@@ -15,6 +15,7 @@ https://github.com/targetcloud/TGRefreshOC
 
 
 ## Recently Updated
+- 0.0.5 删除了成功和失败时的指示图标，全部换成了指示动画，支持刷新成功和失败时分别设置动画类型和颜色，系统指示器也换成自定义指示器，共三种状态指示器供设置，动画类型也多达35种，配置参数目前支持27个
 - 0.0.4 增加了稳定性
 - 0.0.1 TGRefreshOC版本的增强版本，更多参数配置
 
@@ -115,11 +116,20 @@ DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
 
 #### 可以配置的属性
 ``` swift
-/** 刷新失败时的提示图标 */
-public var tipStyle:TGTipStyle = .tipInfoGray
+/** 刷新中的指示器类型 */
+public var indicatorStyle: TGIndicatorType = .lineCursor
     
-/** 刷新成功时的提示图标 */
-public var tipOKStyle: TGOKTipStyle = .tipOKNormal
+/** 刷新失败时的提示器样式 */
+public var tipFailStyle: TGIndicatorType = .ballScaleMultiple
+    
+/** 刷新失败时的提示器颜色 */
+public var tipFailColor: UIColor = .red
+    
+/** 刷新成功时的提示器样式 */
+public var tipOKStyle: TGIndicatorType = .ballScaleMultiple
+    
+/** 刷新成功时的提示器颜色 */
+public var tipOKColor: UIColor = .green
     
 /** 忽略初始的InsetTop,用于刷新控件所画的位置进行定位 */
 public var ignoreScrollViewContentInsetTop: Bool = false
@@ -186,6 +196,44 @@ public var tipLabelFontSize: CGFloat = 11
     
 /** 结果文字字体大小 9 ～ 20 默认12 */
 public var resultLabelFontSize: CGFloat = 12
+
+
+TGIndicatorType可供选择的动画类型有
+.ballPulse
+.ballGridPulse
+.ballClipRotate
+.squareSpin
+.ballClipRotatePulse
+.ballClipRotateMultiple
+.ballPulseRise
+.ballRotate
+.cubeTransition
+.ballZigZag
+.ballZigZagDeflect
+.ballTrianglePath
+.ballScale
+.lineScale
+.lineScaleParty
+.ballScaleMultiple
+.ballPulseSync
+.ballBeat
+.lineScalePulseOut
+.lineScalePulseOutRapid
+.ballScaleRipple
+.ballScaleRippleMultiple
+.ballSpinFadeLoader
+.lineSpinFadeLoader
+.triangleSkewSpin
+.pacman
+.ballGridBeat
+.semiCircleSpin
+.ballRotateChase
+.orbit
+.lineCursor
+.squareGridPulse
+.squarePulse
+.windows
+.audioEqualizer
 
 ```
 #### 使用链式编程配置时，请在所有属性前加tg_前缀即可
