@@ -7,7 +7,7 @@
 ![Build](https://img.shields.io/badge/build-passing-green.svg)
 ![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)
 ![Platform](https://img.shields.io/cocoapods/p/Pastel.svg?style=flat)
-![Cocoapod](https://img.shields.io/badge/pod-v0.0.5-blue.svg)
+![Cocoapod](https://img.shields.io/badge/pod-v0.0.6-blue.svg)
 
 
 ## OC version
@@ -15,12 +15,14 @@ https://github.com/targetcloud/TGRefreshOC
 
 
 ## Recently Updated
+- 0.0.6 加入了刷新前动画样式选择，目前共支持刷新前、刷新中、刷新后的失败或成功4种状态下的动画特效，全网最强
 - 0.0.5 删除了成功和失败时的指示图标，全部换成了指示动画，支持刷新成功和失败时分别设置动画类型和颜色，系统指示器也换成自定义指示器，共三种状态指示器供设置，动画类型也多达35种，配置参数目前支持27个
 - 0.0.4 增加了稳定性
 - 0.0.1 TGRefreshOC版本的增强版本，更多参数配置
 
 
 ## Features
+- [x] 支持刷新前、中、后各种状态时的动画特效设置，DIY你满意的一款
 - [x] 支持链式编程配置，程序员的最爱
 - [x] 支持两种刷新结果提示
 - [x] 支持QQ和Common两种下拉刷新样式
@@ -114,10 +116,13 @@ DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
         }
 ```
 
-#### 可以配置的属性
+#### 可以配置的属性（共28个）
 ``` swift
 /** 刷新中的指示器类型 */
-public var indicatorStyle: TGIndicatorType = .lineCursor
+public var indicatorRefreshingStyle: TGIndicatorType = .lineCursor
+    
+/** 刷新前的指示器类型 */
+public var indicatorNormalStyle: TGIndicatorType = .lineOrderbyAsc
     
 /** 刷新失败时的提示器样式 */
 public var tipFailStyle: TGIndicatorType = .ballScaleMultiple
@@ -233,6 +238,7 @@ TGIndicatorType可供选择的动画类型有
 .squareGridPulse
 .squarePulse
 .windows
+.lineOrderbyAsc
 .audioEqualizer
 
 ```
