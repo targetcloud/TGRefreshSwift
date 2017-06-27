@@ -609,6 +609,7 @@ open class TGRefreshSwift: UIControl {
             break
         default:
             tipIndicator.color = self.tinColor
+            tipIndicator.type = self.indicatorNormalStyle
             if !tipIndicator.isHidden && !tipIndicator.isAnimating{
                 tipIndicator.startAnimating()
             }

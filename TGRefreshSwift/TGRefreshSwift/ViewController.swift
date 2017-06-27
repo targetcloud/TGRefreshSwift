@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         self.automaticallyAdjustsScrollViewInsets=false
         
         //一般用法
-        builderOrdinary()
+        //builderOrdinary()
         
         //简单用法
         //builderSimple()
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         //buildSenior()
         
         //最优推荐用法
-        //builderRecommend4()
+        builderRecommend4()
     }
 
     @objc fileprivate func loadData(){
@@ -89,10 +89,13 @@ extension ViewController{
     fileprivate func builderRecommend4(){
         self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(refresh) in
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
-                .tg_fadeinTime(2)
+                .tg_kind(.Common)
+                .tg_tinColor(UIColor.green)
+                .tg_fadeinTime(1)
+                .tg_fadeoutTime(0.5)
                 .tg_verticalAlignment(.Midden)
-                .tg_indicatorRefreshingStyle(.squareGridPulse)
-                .tg_fadeoutTime(1)
+                .tg_indicatorRefreshingStyle(.lineCursor)
+                .tg_indicatorNormalStyle(.lineOrderbyAsc)
                 .tg_bgColor(UIColor(white:1,alpha:1))
         }
         self.tv.tg_header?.beginRefreshing()
@@ -104,8 +107,8 @@ extension ViewController{
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
                 .tg_verticalAlignment(.Midden)
                 .tg_tinColor(UIColor.white)
-                .tg_tipLabelFontSize(13)
-                .tg_resultLabelFontSize(15)
+                .tg_tipLabelFontSize(12)
+                .tg_resultLabelFontSize(13)
                 .tg_tipFailStyle(.ballScale)
                 .tg_tipOKStyle(.ballScale)
                 .tg_indicatorRefreshingStyle(.orbit)
