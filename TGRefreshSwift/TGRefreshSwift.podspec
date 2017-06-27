@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 s.name         = "TGRefreshSwift"
-s.version      = "0.0.5"
-s.summary      = "橡皮筋下拉刷新控件，弹簧下拉刷新控件，QQ效果下拉刷新，同时支持其他样式"
+s.version      = "0.0.6"
+s.summary      = "下拉刷新控件，支持刷新前、刷新中、刷新成功、刷新失败时4种状态下的动画效果设置，暴强！"
 s.homepage     = "https://github.com/targetcloud/TGRefreshSwift"
 s.license      = "MIT"
 s.author       = { "targetcloud" => "targetcloud@163.com" }
