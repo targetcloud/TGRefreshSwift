@@ -9,9 +9,9 @@
 import UIKit
 
 public enum TGRefreshState: Int {
-    case Normal = 0     //默认
-    case Pulling        //准备刷新
-    case Refreshing     //正在刷新
+    case Normal = 0
+    case Pulling
+    case Refreshing     
 }
 
 public enum TGRefreshKind: Int {
@@ -23,22 +23,6 @@ public enum TGRefreshAlignment: Int {
     case Top = 0
     case Midden
     case Bottom
-}
-
-public enum TGFailTipStyle: Int {
-    case tipForbiddenGray = 0
-    case tipForbiddenWhite
-    case tipInfoGray
-    case tipInfoRed
-    case tipInfoWhite
-}
-
-public enum TGOKTipStyle: Int {
-    case tipOKNormal = 0
-    case tipOKGray
-    case tipOKWhite
-    case tipOKStyleWhite
-    case tipOKStyleGray
 }
 
 open class TGRefreshSwift: UIControl {
@@ -73,11 +57,20 @@ open class TGRefreshSwift: UIControl {
     fileprivate var indicatorRightConstraint: NSLayoutConstraint?//往左偏margin -
     fileprivate var tipLabelCenterXConstraint: NSLayoutConstraint?//往右偏margin +
     
-    /** 刷新失败时的提示图标 */
-    public var tipFailStyle: TGFailTipStyle = .tipInfoGray
+    /** 刷新中的指示器类型 */
+    public var indicatorStyle: TGIndicatorType = .lineCursor
     
-    /** 刷新成功时的提示图标 */
-    public var tipOKStyle: TGOKTipStyle = .tipOKNormal
+    /** 刷新失败时的提示器样式 */
+    public var tipFailStyle: TGIndicatorType = .ballScaleMultiple
+    
+    /** 刷新失败时的提示器颜色 */
+    public var tipFailColor: UIColor = .red
+    
+    /** 刷新成功时的提示器样式 */
+    public var tipOKStyle: TGIndicatorType = .ballScaleMultiple
+    
+    /** 刷新成功时的提示器颜色 */
+    public var tipOKColor: UIColor = .green
     
     /** 忽略初始的InsetTop,用于刷新控件所画的位置进行定位 */
     public var ignoreScrollViewContentInsetTop: Bool = false
@@ -233,11 +226,16 @@ open class TGRefreshSwift: UIControl {
         return resultLabel
     }()
     
-    private lazy var indicator:UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        //indicator.center = self.kCenter
-        indicator.color = self.tinColor
-        indicator.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+    private lazy var indicator:TGIndicatorView = {
+        let indicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5),
+                                        type:self.indicatorStyle,
+                                        color:self.tinColor)
+        self.addSubview(indicator)
+        return indicator
+    }()
+    
+    private lazy var tipIndicator:TGIndicatorView = {
+        let indicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5))
         self.addSubview(indicator)
         return indicator
     }()
@@ -675,7 +673,7 @@ open class TGRefreshSwift: UIControl {
         return UIColor(red: r, green: g, blue: b, alpha: 1)
     }
     
-    //链式配置相关,共23个
+    //链式配置相关,共27个
     @discardableResult
     public func tg_kind(_ kind: TGRefreshKind) -> TGRefreshSwift{
         self.kind = kind
@@ -684,19 +682,25 @@ open class TGRefreshSwift: UIControl {
     
     @discardableResult
     public func tg_bgColor(_ color: UIColor) -> TGRefreshSwift {
-        //        var r: CGFloat = 0
-        //        var g: CGFloat = 0
-        //        var b: CGFloat = 0
-        //        var a: CGFloat = 0
-        //        color.getRed(&r, green: &g, blue: &b, alpha: &a)
-        //        self.bgColor = UIColor(colorLiteralRed: Float(r), green: Float(g), blue: Float(b), alpha: 1)
-        self.bgColor = color//会直接调用didSet
+        self.bgColor = color
         return self
     }
     
     @discardableResult
     public func tg_tinColor(_ color: UIColor) -> TGRefreshSwift {
         self.tinColor = color
+        return self
+    }
+    
+    @discardableResult
+    public func tg_tipFailColor(_ color: UIColor) -> TGRefreshSwift {
+        self.tipFailColor = color
+        return self
+    }
+    
+    @discardableResult
+    public func tg_tipOKColor(_ color: UIColor) -> TGRefreshSwift {
+        self.tipOKColor = color
         return self
     }
     
@@ -797,14 +801,20 @@ open class TGRefreshSwift: UIControl {
     }
     
     @discardableResult
-    public func tg_tipFailStyle(_ style: TGFailTipStyle) -> TGRefreshSwift {
+    public func tg_tipFailStyle(_ style: TGIndicatorType) -> TGRefreshSwift {
         self.tipFailStyle = style
         return self
     }
     
     @discardableResult
-    public func tg_tipOKStyle(_ style: TGOKTipStyle) -> TGRefreshSwift {
+    public func tg_tipOKStyle(_ style: TGIndicatorType) -> TGRefreshSwift {
         self.tipOKStyle = style
+        return self
+    }
+    
+    @discardableResult
+    public func tg_indicatorStyle(_ style: TGIndicatorType) -> TGRefreshSwift {
+        self.indicatorStyle = style
         return self
     }
     
