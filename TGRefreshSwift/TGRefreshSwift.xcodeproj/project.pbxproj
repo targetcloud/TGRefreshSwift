@@ -51,6 +51,7 @@
 		6A6C65171F024888000C28E8 /* TGTriangleSkewSpin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C64F21F024888000C28E8 /* TGTriangleSkewSpin.swift */; };
 		6A6C65181F024888000C28E8 /* TGWindows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C64F31F024888000C28E8 /* TGWindows.swift */; };
 		6A6C65191F024888000C28E8 /* TGIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C64F41F024888000C28E8 /* TGIndicator.swift */; };
+		6A6C651D1F030D66000C28E8 /* TGLineOrderbyAsc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6C651C1F030D66000C28E8 /* TGLineOrderbyAsc.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +101,7 @@
 		6A6C64F21F024888000C28E8 /* TGTriangleSkewSpin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGTriangleSkewSpin.swift; sourceTree = "<group>"; };
 		6A6C64F31F024888000C28E8 /* TGWindows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGWindows.swift; sourceTree = "<group>"; };
 		6A6C64F41F024888000C28E8 /* TGIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGIndicator.swift; sourceTree = "<group>"; };
+		6A6C651C1F030D66000C28E8 /* TGLineOrderbyAsc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TGLineOrderbyAsc.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 				6A6C64F11F024888000C28E8 /* TGSquareSpin.swift */,
 				6A6C64F21F024888000C28E8 /* TGTriangleSkewSpin.swift */,
 				6A6C64F31F024888000C28E8 /* TGWindows.swift */,
+				6A6C651C1F030D66000C28E8 /* TGLineOrderbyAsc.swift */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				6A6C650D1F024888000C28E8 /* TGLineScaleParty.swift in Sources */,
 				6A6C64F81F024888000C28E8 /* TGBallClipRotateMultiple.swift in Sources */,
 				6A6C64FA1F024888000C28E8 /* TGBallGridBeat.swift in Sources */,
+				6A6C651D1F030D66000C28E8 /* TGLineOrderbyAsc.swift in Sources */,
 				6A6C65121F024888000C28E8 /* TGPacman.swift in Sources */,
 				6A6C65061F024888000C28E8 /* TGBallTrianglePath.swift in Sources */,
 				6A6C65161F024888000C28E8 /* TGSquareSpin.swift in Sources */,

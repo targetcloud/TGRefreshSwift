@@ -170,6 +170,7 @@ public enum TGIndicatorType: Int {
     case squareGridPulse
     case squarePulse
     case windows
+    case lineOrderbyAsc
     case audioEqualizer
     
     static let allTypes = (blank.rawValue ... audioEqualizer.rawValue).map { TGIndicatorType(rawValue: $0)! }
@@ -248,6 +249,8 @@ public enum TGIndicatorType: Int {
             return TGSquarePulse()
         case .windows:
             return TGWindows()
+        case .lineOrderbyAsc:
+            return TGLineOrderbyAsc()
         }
     }
 }

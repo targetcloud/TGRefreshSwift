@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         self.automaticallyAdjustsScrollViewInsets=false
         
         //一般用法
-        //builderOrdinary()
+        builderOrdinary()
         
         //简单用法
         //builderSimple()
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         //buildSenior()
         
         //最优推荐用法
-        builderRecommend4()
+        //builderRecommend4()
     }
 
     @objc fileprivate func loadData(){
@@ -91,7 +91,7 @@ extension ViewController{
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
                 .tg_fadeinTime(2)
                 .tg_verticalAlignment(.Midden)
-                .tg_indicatorStyle(.squareGridPulse)
+                .tg_indicatorRefreshingStyle(.squareGridPulse)
                 .tg_fadeoutTime(1)
                 .tg_bgColor(UIColor(white:1,alpha:1))
         }
@@ -108,7 +108,7 @@ extension ViewController{
                 .tg_resultLabelFontSize(15)
                 .tg_tipFailStyle(.ballScale)
                 .tg_tipOKStyle(.ballScale)
-                .tg_indicatorStyle(.orbit)
+                .tg_indicatorRefreshingStyle(.orbit)
                 .tg_fadeinTime(1)
                 .tg_fadeoutTime(0.5)
                 .tg_bgColor(UIColor(white:0.5,alpha:1))
@@ -174,12 +174,12 @@ extension ViewController{
         //与下面链式配置二选一，也可以一起写
         //refreshCtl?.ignoreScrollViewContentInsetTop = true
         refreshCtl?.refreshResultBgColor = UIColor.orange.withAlphaComponent(0.8)
-        //        refreshCtl?.kind = .Common//QQ效果不写此行
+        refreshCtl?.kind = .Common//QQ效果不写此行
         refreshCtl?.tinColor = UIColor.orange
-        refreshCtl?.isShowSuccesOrFailInfo = false
+//        refreshCtl?.isShowSuccesOrFailInfo = false
         refreshCtl?.refreshSuccessStr = ""
         refreshCtl?.automaticallyChangeAlpha = true
-        refreshCtl?.verticalAlignment = .Midden
+        refreshCtl?.verticalAlignment = .Top
         refreshCtl?.bgColor =  UIColor(white: 0.8, alpha: 1)
         //***************************************************
         
@@ -192,6 +192,7 @@ extension ViewController{
             .tg_refreshPullingStr("let go")
             .tg_refreshingStr("refreshing...")
             .tg_refreshSuccessStr("success")
+            .tg_refreshFailStr("fail")
         //***************************************************
         
         tv.addSubview(refreshCtl!)

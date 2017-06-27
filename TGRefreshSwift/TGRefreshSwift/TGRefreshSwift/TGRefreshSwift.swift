@@ -56,10 +56,13 @@ open class TGRefreshSwift: UIControl {
     fileprivate var tipLabelBottomConstraint: NSLayoutConstraint?//默认控件高度一半
     fileprivate var indicatorRightConstraint: NSLayoutConstraint?//往左偏margin -
     fileprivate var tipLabelCenterXConstraint: NSLayoutConstraint?//往右偏margin +
-    fileprivate var tipIconRightConstraint: NSLayoutConstraint?
+    fileprivate var tipIndicatorRightConstraint: NSLayoutConstraint?
     
     /** 刷新中的指示器类型 */
-    public var indicatorStyle: TGIndicatorType = .lineCursor
+    public var indicatorRefreshingStyle: TGIndicatorType = .lineCursor
+    
+    /** 刷新前的指示器类型 */
+    public var indicatorNormalStyle: TGIndicatorType = .lineOrderbyAsc
     
     /** 刷新失败时的提示器样式 */
     public var tipFailStyle: TGIndicatorType = .ballScaleMultiple
@@ -82,7 +85,7 @@ open class TGRefreshSwift: UIControl {
             //更新约束
             indicatorRightConstraint?.constant = -margin
             tipLabelCenterXConstraint?.constant = margin
-            tipIconRightConstraint?.constant = -margin
+            tipIndicatorRightConstraint?.constant = -margin
         }
     }
     
@@ -139,7 +142,11 @@ open class TGRefreshSwift: UIControl {
     public var refreshPullingStr: String = "松开立即刷新"
     
     /** 正在刷新时的提示文字 */
-    public var refreshingStr: String = "正在刷新数据中..."
+    public var refreshingStr: String = "正在刷新数据中..."{
+        didSet{
+            refreshingStr = refreshingStr == "" ? " " : refreshingStr
+        }
+    }
     
     /** 更新结果的回显文字 */
     public var refreshResultStr: String = ""
@@ -199,11 +206,14 @@ open class TGRefreshSwift: UIControl {
     
     private weak var sv: UIScrollView?
     
-    private lazy var tipIcon: UIImageView = {
-        let tipIcon = UIImageView(image: self.getImage("normal@2x"))
-        tipIcon.isHidden = true
-        self.addSubview(tipIcon)
-        return tipIcon
+    //normal
+    private lazy var tipIndicator: TGIndicatorView = {
+        let tipindicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5),
+                                           type:self.indicatorNormalStyle,
+                                           color:self.tinColor)
+        tipindicator.isHidden = true
+        self.addSubview(tipindicator)
+        return tipindicator
     }()
     
     private lazy var tipLabel: UILabel = {
@@ -228,9 +238,10 @@ open class TGRefreshSwift: UIControl {
         return resultLabel
     }()
     
+    //refreshing
     private lazy var indicator:TGIndicatorView = {
         let indicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5),
-                                        type:self.indicatorStyle,
+                                        type:self.indicatorRefreshingStyle,
                                         color:self.tinColor)
         self.addSubview(indicator)
         //self.insertSubview(indicator, at: 0)
@@ -241,7 +252,7 @@ open class TGRefreshSwift: UIControl {
         return indicator
     }()
     
-    private lazy var tipIndicator:TGIndicatorView = {
+    private lazy var tipResultSuccessOrFailIndicator:TGIndicatorView = {
         let tipindicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5))
         self.addSubview(tipindicator)
         //self.insertSubview(tipindicator, at: 0)
@@ -292,8 +303,8 @@ open class TGRefreshSwift: UIControl {
                             self.refreshing = true
                             self.tipLabel.text = self.refreshingStr
                             self.tipLabel.isHidden = false
-                            self.tipIcon.isHidden = true
-                            self.indicator.type = self.indicatorStyle
+                            self.tipIndicator.isHidden = true
+                            self.indicator.type = self.indicatorRefreshingStyle
                             self.indicator.startAnimating()
                             self.sv?.contentOffset = CGPoint(x: 0, y: -(self.refreshHeight + self.initInsetTop))
                         })
@@ -301,7 +312,7 @@ open class TGRefreshSwift: UIControl {
                     }
                 case .Normal:
                     tipLabel.text = self.refreshNormalStr
-                    tipIcon.isHidden = true
+                    tipIndicator.isHidden = true
                     tipLabel.isHidden = true
                     indicator.stopAnimating()
                     if oldValue == .Refreshing {
@@ -313,12 +324,11 @@ open class TGRefreshSwift: UIControl {
                 }
                 
             case .Common:
-                self.tipIcon.image = self.getImage("normal@2x")
-                self.tipIcon.sizeToFit()
+                self.tipIndicator.sizeToFit()
                 switch refreshState {
                 case .Normal:
                     tipLabel.text = self.refreshNormalStr
-                    tipIcon.isHidden = oldValue == .Refreshing ? true : false
+                    tipIndicator.isHidden = oldValue == .Refreshing ? true : false
                     tipLabel.isHidden = oldValue == .Refreshing ? true : false
                     indicator.stopAnimating()
                     if oldValue == .Refreshing {
@@ -326,21 +336,21 @@ open class TGRefreshSwift: UIControl {
                         self.sv?.contentOffset = CGPoint(x: 0, y: -initInsetTop)
                     }
                     UIView.animate(withDuration: 0.25, animations: {
-                        self.tipIcon.transform = CGAffineTransform.identity
+                        self.tipIndicator.transform = CGAffineTransform.identity
                     })
                 case .Pulling:
                     tipLabel.text = self.refreshPullingStr
-                    tipIcon.isHidden = false
+                    tipIndicator.isHidden = false
                     tipLabel.isHidden = false
                     indicator.stopAnimating()
                     UIView.animate(withDuration: 0.25, animations: {
-                        self.tipIcon.transform = CGAffineTransform.init(rotationAngle: CGFloat(Double.pi + 0.001))
+                        self.tipIndicator.transform = CGAffineTransform.init(rotationAngle: CGFloat(Double.pi + 0.001))
                     })
                 case .Refreshing:
                     tipLabel.text = self.refreshingStr
                     tipLabel.isHidden = false
-                    tipIcon.isHidden = true
-                    indicator.type = self.indicatorStyle
+                    tipIndicator.isHidden = true
+                    indicator.type = self.indicatorRefreshingStyle
                     indicator.startAnimating()
                     UIView .animate(withDuration: 0.25, animations: {
                         self.sv?.contentInset.top += self.refreshHeight
@@ -403,7 +413,7 @@ open class TGRefreshSwift: UIControl {
             
             self.tipLabel.alpha = self.automaticallyChangeAlpha ? (height/refreshHeight) :
                 (self.verticalAlignment == .Top ? (height/refreshHeight) : 1)
-            self.tipIcon.alpha = self.tipLabel.alpha
+            self.tipIndicator.alpha = self.tipLabel.alpha
             self.setNeedsDisplay()
             
             //        default:
@@ -429,8 +439,8 @@ open class TGRefreshSwift: UIControl {
             return
         }
         if refreshState == .Refreshing {
-            self.tipIcon.transform =  CGAffineTransform.identity
-            self.tipIcon.isHidden = true
+            self.tipIndicator.transform =  CGAffineTransform.identity
+            self.tipIndicator.isHidden = true
             refreshing = false
             animating = false
             self.tipLabel.text = self.isSuccess ? self.refreshSuccessStr : self.refreshFailStr
@@ -445,22 +455,22 @@ open class TGRefreshSwift: UIControl {
             self.indicator.stopAnimating()
             
             self.tipLabel.isHidden = !self.isShowSuccesOrFailInfo
-            self.tipIndicator.isHidden = !self.isShowSuccesOrFailInfo
+            self.tipResultSuccessOrFailIndicator.isHidden = !self.isShowSuccesOrFailInfo
             
-            self.tipLabel.alpha = 0.0
-            self.tipIndicator.type = self.isSuccess ? self.tipOKStyle : tipFailStyle
-            self.tipIndicator.color = self.isSuccess ? self.tipOKColor : self.tipFailColor
-            self.tipIndicator.startAnimating()
-            UIView .animate(withDuration: 0.75, animations: {
+            self.tipLabel.alpha = 0.5
+            self.tipResultSuccessOrFailIndicator.type = self.isSuccess ? self.tipOKStyle : tipFailStyle
+            self.tipResultSuccessOrFailIndicator.color = self.isSuccess ? self.tipOKColor : self.tipFailColor
+            self.tipResultSuccessOrFailIndicator.startAnimating()
+            UIView .animate(withDuration: self.isShowSuccesOrFailInfo ? 0.75 : 0.25, animations: {
                 if self.isShowSuccesOrFailInfo{
                     self.tipLabel.alpha = 1
-                }else{
-                    self.tipLabelCenterXConstraint?.constant = self.tipLabel.frame.size.width * 0.5 + self.margin * 2
-                }
+                }//else{
+                    //self.tipLabelCenterXConstraint?.constant = self.tipLabel.frame.size.width * 0.5 + self.margin * 2
+                //}
             }) { (_) in
                 UIView .animate(withDuration: 0.25, animations: {
-                    self.tipIndicator.stopAnimating()
-                    self.tipIndicator.isHidden = true
+                    self.tipResultSuccessOrFailIndicator.stopAnimating()
+                    self.tipResultSuccessOrFailIndicator.isHidden = true
                     self.tipLabel.isHidden = true
                 }, completion: { (_) in
                     //print("<---刷新控件 completion refreshState>\(self.refreshState)")
@@ -544,7 +554,7 @@ open class TGRefreshSwift: UIControl {
         
         //先调用懒加载
         self.tipLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.tipIcon.translatesAutoresizingMaskIntoConstraints = false
+        self.tipIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         //提示文本
         tipLabelCenterXConstraint = NSLayoutConstraint(item: self.tipLabel,attribute: .centerX,relatedBy: .equal,toItem: self,attribute: .centerX,multiplier: 1.0,constant: margin)
@@ -555,9 +565,9 @@ open class TGRefreshSwift: UIControl {
         //        tipLabelCenterYConstraint = NSLayoutConstraint(item: self.tipLabel,attribute: .centerY,relatedBy: .equal,toItem: self,attribute: .centerY,multiplier: 1.0,constant: 0)
         //        addConstraint(tipLabelCenterYConstraint!)
         
-        tipIconRightConstraint = NSLayoutConstraint(item: self.tipIcon,attribute: .right,relatedBy: .equal,toItem: self.tipLabel,attribute: .left,multiplier: 1.0,constant: -self.margin)
-        addConstraint(tipIconRightConstraint!)
-        addConstraint(NSLayoutConstraint(item: self.tipIcon,attribute: .centerY,relatedBy: .equal,toItem: self.tipLabel,attribute: .centerY,multiplier: 1.0,constant: 0))
+        tipIndicatorRightConstraint = NSLayoutConstraint(item: self.tipIndicator,attribute: .right,relatedBy: .equal,toItem: self.tipLabel,attribute: .left,multiplier: 1.0,constant: -self.margin)
+        addConstraint(tipIndicatorRightConstraint!)
+        addConstraint(NSLayoutConstraint(item: self.tipIndicator,attribute: .centerY,relatedBy: .equal,toItem: self.tipLabel,attribute: .centerY,multiplier: 1.0,constant: 0))
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -584,9 +594,9 @@ open class TGRefreshSwift: UIControl {
         
         switch self.verticalAlignment {
         case .Top:
-            self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5)
+            self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5) + margin * 0.5
         case .Midden:
-            self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5) * 0.5
+            self.tipLabelBottomConstraint?.constant = -(self.frame.size.height - refreshHeight * 0.5) * 0.5 - margin * 0.5
         case .Bottom:
             self.tipLabelBottomConstraint?.constant = -(margin)
         }
@@ -598,7 +608,10 @@ open class TGRefreshSwift: UIControl {
         case .QQ:
             break
         default:
-            (self.bgColor ?? (self.backgroundColor)!).setFill()
+            tipIndicator.color = self.tinColor
+            if !tipIndicator.isHidden && !tipIndicator.isAnimating{
+                tipIndicator.startAnimating()
+            }
             return
         }
         
@@ -676,7 +689,7 @@ open class TGRefreshSwift: UIControl {
         return UIColor(red: r, green: g, blue: b, alpha: 1)
     }
     
-    //链式配置相关,共27个
+    //链式配置相关,共28个
     @discardableResult
     public func tg_kind(_ kind: TGRefreshKind) -> TGRefreshSwift{
         self.kind = kind
@@ -816,8 +829,14 @@ open class TGRefreshSwift: UIControl {
     }
     
     @discardableResult
-    public func tg_indicatorStyle(_ style: TGIndicatorType) -> TGRefreshSwift {
-        self.indicatorStyle = style
+    public func tg_indicatorRefreshingStyle(_ style: TGIndicatorType) -> TGRefreshSwift {
+        self.indicatorRefreshingStyle = style
+        return self
+    }
+
+    @discardableResult
+    public func tg_indicatorNormalStyle(_ style: TGIndicatorType) -> TGRefreshSwift {
+        self.indicatorNormalStyle = style
         return self
     }
     
