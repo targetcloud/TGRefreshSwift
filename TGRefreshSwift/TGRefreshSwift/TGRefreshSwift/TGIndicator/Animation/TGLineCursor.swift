@@ -13,7 +13,7 @@ class TGLineCursor: TGIndicatorDelegate {
         let lineSize = size.width / 10
         let x = (layer.bounds.size.width - size.width) / 2  + (size.width - lineSize) / 2
         let y = (layer.bounds.size.height - size.height) / 2 + lineSize / 2
-        print("\(layer.bounds.size.width) \(size.width) \(x) \(y)")
+        //print("\(layer.bounds.size.width) \(size.width) \(x) \(y)")
         let duration: CFTimeInterval = 1
         let beginTime = CACurrentMediaTime()
         

@@ -11,7 +11,7 @@ import UIKit
 public enum TGRefreshState: Int {
     case Normal = 0
     case Pulling
-    case Refreshing     
+    case Refreshing
 }
 
 public enum TGRefreshKind: Int {
@@ -56,6 +56,7 @@ open class TGRefreshSwift: UIControl {
     fileprivate var tipLabelBottomConstraint: NSLayoutConstraint?//默认控件高度一半
     fileprivate var indicatorRightConstraint: NSLayoutConstraint?//往左偏margin -
     fileprivate var tipLabelCenterXConstraint: NSLayoutConstraint?//往右偏margin +
+    fileprivate var tipIconRightConstraint: NSLayoutConstraint?
     
     /** 刷新中的指示器类型 */
     public var indicatorStyle: TGIndicatorType = .lineCursor
@@ -81,6 +82,7 @@ open class TGRefreshSwift: UIControl {
             //更新约束
             indicatorRightConstraint?.constant = -margin
             tipLabelCenterXConstraint?.constant = margin
+            tipIconRightConstraint?.constant = -margin
         }
     }
     
@@ -231,13 +233,20 @@ open class TGRefreshSwift: UIControl {
                                         type:self.indicatorStyle,
                                         color:self.tinColor)
         self.addSubview(indicator)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        self.addConstraint(NSLayoutConstraint(item: indicator,attribute: .centerY,relatedBy: .equal,toItem: self.tipLabel,attribute: .centerY,multiplier: 1.0,constant: 0))
+        self.indicatorRightConstraint = NSLayoutConstraint(item: indicator,attribute: .right,relatedBy: .equal,toItem: self.tipLabel,attribute: .left,multiplier: 1.0,constant: -self.margin)
+        self.addConstraint(self.indicatorRightConstraint!)
         return indicator
     }()
     
     private lazy var tipIndicator:TGIndicatorView = {
-        let indicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5))
-        self.addSubview(indicator)
-        return indicator
+        let tipindicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5))
+        self.addSubview(tipindicator)
+        tipindicator.translatesAutoresizingMaskIntoConstraints = false
+        self.addConstraint(NSLayoutConstraint(item: tipindicator,attribute: .centerY,relatedBy: .equal,toItem: self.indicator,attribute: .centerY,multiplier: 1.0,constant: 0))
+        self.addConstraint(NSLayoutConstraint(item: tipindicator,attribute: .centerX,relatedBy: .equal,toItem: self.indicator,attribute: .centerX,multiplier: 1.0,constant: 0))
+        return tipindicator
     }()
     
     private lazy var innerImageView: UIImageView = {
@@ -282,9 +291,6 @@ open class TGRefreshSwift: UIControl {
                             self.tipLabel.text = self.refreshingStr
                             self.tipLabel.isHidden = false
                             self.tipIcon.isHidden = true
-//                            if !self.isShowSuccesOrFailInfo{
-//                                self.tipLabelCenterXConstraint?.constant = self.tipLabel.frame.size.width * 0.5 + self.margin * 2
-//                            }
                             self.indicator.startAnimating()
                             self.sv?.contentOffset = CGPoint(x: 0, y: -(self.refreshHeight + self.initInsetTop))
                         })
@@ -420,14 +426,13 @@ open class TGRefreshSwift: UIControl {
         }
         if refreshState == .Refreshing {
             self.tipIcon.transform =  CGAffineTransform.identity
+            self.tipIcon.isHidden = true
             refreshing = false
             animating = false
             self.tipLabel.text = self.isSuccess ? self.refreshSuccessStr : self.refreshFailStr
             self.tipLabel.text = self.isShowSuccesOrFailInfo ? self.tipLabel.text : " "
-            self.tipIcon.image = self.isSuccess ? self.getImage("\(self.tipOKStyle)@2x") : self.getImage("\(self.tipFailStyle)@2x")
             
             self.tipLabel.sizeToFit()
-            self.tipIcon.sizeToFit()
             
             if tipLabel.text == " "{
                 tipLabelCenterXConstraint?.constant = margin * 2
@@ -435,12 +440,14 @@ open class TGRefreshSwift: UIControl {
             
             self.indicator.stopAnimating()
             
-            self.tipIcon.isHidden = !self.isShowSuccesOrFailInfo
             self.tipLabel.isHidden = !self.isShowSuccesOrFailInfo
+            self.tipIndicator.isHidden = !self.isShowSuccesOrFailInfo
             
             self.tipLabel.alpha = 0.0
-            
-            UIView .animate(withDuration: 0.25, animations: {
+            self.tipIndicator.type = self.isSuccess ? self.tipOKStyle : tipFailStyle
+            self.tipIndicator.color = self.isSuccess ? self.tipOKColor : self.tipFailColor
+            self.tipIndicator.startAnimating()
+            UIView .animate(withDuration: 0.75, animations: {
                 if self.isShowSuccesOrFailInfo{
                     self.tipLabel.alpha = 1
                 }else{
@@ -448,11 +455,9 @@ open class TGRefreshSwift: UIControl {
                 }
             }) { (_) in
                 UIView .animate(withDuration: 0.25, animations: {
-                    self.tipIcon.isHidden = true
+                    self.tipIndicator.stopAnimating()
+                    self.tipIndicator.isHidden = true
                     self.tipLabel.isHidden = true
-                    //DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.25) {
-                    //self.refreshState = .Normal
-                    //}
                 }, completion: { (_) in
                     //print("<---刷新控件 completion refreshState>\(self.refreshState)")
                     if self.refreshState == .Refreshing {
@@ -535,7 +540,6 @@ open class TGRefreshSwift: UIControl {
         
         //先调用懒加载
         self.tipLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.indicator.translatesAutoresizingMaskIntoConstraints = false
         self.tipIcon.translatesAutoresizingMaskIntoConstraints = false
         
         //提示文本
@@ -547,14 +551,9 @@ open class TGRefreshSwift: UIControl {
         //        tipLabelCenterYConstraint = NSLayoutConstraint(item: self.tipLabel,attribute: .centerY,relatedBy: .equal,toItem: self,attribute: .centerY,multiplier: 1.0,constant: 0)
         //        addConstraint(tipLabelCenterYConstraint!)
         
-        //指示器
-        addConstraint(NSLayoutConstraint(item: self.indicator,attribute: .centerY,relatedBy: .equal,toItem: self.tipLabel,attribute: .centerY,multiplier: 1.0,constant: 0))
-        indicatorRightConstraint = NSLayoutConstraint(item: self.indicator,attribute: .right,relatedBy: .equal,toItem: self.tipLabel,attribute: .left,multiplier: 1.0,constant: -margin)
-        addConstraint(indicatorRightConstraint!)
-        
-        //提示图标
-        addConstraint(NSLayoutConstraint(item: self.tipIcon,attribute: .centerX,relatedBy: .equal,toItem: self.indicator,attribute: .centerX,multiplier: 1.0,constant: 0))
-        addConstraint(NSLayoutConstraint(item: self.tipIcon,attribute: .centerY,relatedBy: .equal,toItem: self.indicator,attribute: .centerY,multiplier: 1.0,constant: 0))
+        tipIconRightConstraint = NSLayoutConstraint(item: self.tipIcon,attribute: .right,relatedBy: .equal,toItem: self.tipLabel,attribute: .left,multiplier: 1.0,constant: -self.margin)
+        addConstraint(tipIconRightConstraint!)
+        addConstraint(NSLayoutConstraint(item: self.tipIcon,attribute: .centerY,relatedBy: .equal,toItem: self.tipLabel,attribute: .centerY,multiplier: 1.0,constant: 0))
     }
     
     required public init?(coder aDecoder: NSCoder) {

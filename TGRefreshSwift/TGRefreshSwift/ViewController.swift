@@ -92,7 +92,7 @@ extension ViewController{
                 .tg_fadeinTime(2)
                 .tg_verticalAlignment(.Midden)
                 .tg_fadeoutTime(1)
-                .tg_bgColor(UIColor(white:0.8,alpha:1))
+                .tg_bgColor(UIColor(white:1,alpha:1))
         }
         self.tv.tg_header?.beginRefreshing()
     }
@@ -109,7 +109,7 @@ extension ViewController{
                 .tg_tipOKStyle(.ballScale)
                 .tg_fadeinTime(1)
                 .tg_fadeoutTime(0.5)
-                .tg_bgColor(UIColor(white:0.8,alpha:1))
+                .tg_bgColor(UIColor(white:1,alpha:1))
         }
         self.tv.tg_header?.beginRefreshing()
     }
