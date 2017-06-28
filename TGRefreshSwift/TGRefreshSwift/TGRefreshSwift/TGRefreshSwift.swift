@@ -294,11 +294,12 @@ open class TGRefreshSwift: UIControl {
                 case .Refreshing:
                     if (!animating){
                         animating = true
+                        self.sv?.contentInset.top += self.refreshHeight
+                        self.innerImageView.isHidden = true
+                        self.deltaH = -self.kScreenH
+                        self.setNeedsDisplay()
                         UIView.animate(withDuration: 0.25, animations: {
-                            self.innerImageView.isHidden = true
-                            self.deltaH = -self.kScreenH
-                            self.setNeedsDisplay()
-                            self.sv?.contentInset.top += self.refreshHeight
+                            self.sv?.contentOffset = CGPoint(x: 0, y: -(self.refreshHeight + self.initInsetTop))
                         }, completion: { (_) in
                             self.animating = false
                             self.refreshing = true
@@ -307,7 +308,6 @@ open class TGRefreshSwift: UIControl {
                             self.tipIndicator.isHidden = true
                             self.indicator.type = self.indicatorRefreshingStyle
                             self.indicator.startAnimating()
-                            self.sv?.contentOffset = CGPoint(x: 0, y: -(self.refreshHeight + self.initInsetTop))
                         })
                         self.sendActions(for: .valueChanged)
                     }
@@ -353,8 +353,8 @@ open class TGRefreshSwift: UIControl {
                     tipIndicator.isHidden = true
                     indicator.type = self.indicatorRefreshingStyle
                     indicator.startAnimating()
+                    self.sv?.contentInset.top += self.refreshHeight
                     UIView .animate(withDuration: 0.25, animations: {
-                        self.sv?.contentInset.top += self.refreshHeight
                         self.sv?.contentOffset = CGPoint(x: 0, y: -(self.initInsetTop+self.refreshHeight))
                     })
                     self.sendActions(for: .valueChanged)

@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         self.automaticallyAdjustsScrollViewInsets=false
         
         //一般用法
-        //builderOrdinary()
+        builderOrdinary()
         
         //简单用法
         //builderSimple()
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         //buildSenior()
         
         //最优推荐用法
-        builderRecommend4()
+        //builderRecommend4()
     }
 
     @objc fileprivate func loadData(){
@@ -96,7 +96,7 @@ extension ViewController{
                 .tg_verticalAlignment(.Midden)
                 .tg_indicatorRefreshingStyle(.lineCursor)
                 .tg_indicatorNormalStyle(.lineOrderbyAsc)
-                .tg_bgColor(UIColor(white:1,alpha:1))
+                .tg_bgColor(UIColor(white:0.9,alpha:1))
         }
         self.tv.tg_header?.beginRefreshing()
     }
@@ -177,7 +177,7 @@ extension ViewController{
         //与下面链式配置二选一，也可以一起写
         //refreshCtl?.ignoreScrollViewContentInsetTop = true
         refreshCtl?.refreshResultBgColor = UIColor.orange.withAlphaComponent(0.8)
-        refreshCtl?.kind = .Common//QQ效果不写此行
+//        refreshCtl?.kind = .Common//QQ效果不写此行
         refreshCtl?.tinColor = UIColor.orange
 //        refreshCtl?.isShowSuccesOrFailInfo = false
         refreshCtl?.refreshSuccessStr = ""
