@@ -247,10 +247,10 @@ TGIndicatorType可供选择的动画类型有
 ### 更多使用配置组合效果请download本项目或fork本项目查看
 
 ## 运行效果
-![](https://github.com/targetcloud/TGRefreshSwift/blob/master/gif.gif) 
+
 
 ## demo中的弹簧效果
-![](https://github.com/targetcloud/TGRefreshSwift/blob/master/swiftdemo.gif)
+
 
 
 ## Installation
