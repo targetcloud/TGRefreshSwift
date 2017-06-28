@@ -26,7 +26,7 @@ class ViewController: UIViewController {
         self.automaticallyAdjustsScrollViewInsets=false
         
         //一般用法
-        builderOrdinary()
+        //builderOrdinary()
         
         //简单用法
         //builderSimple()
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         //buildSenior()
         
         //最优推荐用法
-        //builderRecommend4()
+        builderRecommend4()
     }
 
     @objc fileprivate func loadData(){
@@ -90,13 +90,13 @@ extension ViewController{
         self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(refresh) in
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
                 .tg_kind(.Common)
-                .tg_tinColor(UIColor.green)
+                .tg_tinColor(UIColor.orange)
                 .tg_fadeinTime(1)
                 .tg_fadeoutTime(0.5)
                 .tg_verticalAlignment(.Midden)
                 .tg_indicatorRefreshingStyle(.lineCursor)
                 .tg_indicatorNormalStyle(.lineOrderbyAsc)
-                .tg_bgColor(UIColor(white:0.9,alpha:1))
+                .tg_bgColor(UIColor(white:0.8,alpha:1))
         }
         self.tv.tg_header?.beginRefreshing()
     }

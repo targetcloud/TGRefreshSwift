@@ -234,7 +234,10 @@ open class TGRefreshSwift: UIControl {
         resultLabel.text = self.refreshResultStr
         resultLabel.backgroundColor = self.refreshResultBgColor
         resultLabel.textColor = self.refreshResultTextColor
-        resultLabel.frame = CGRect(x: self.sv!.frame.origin.x, y: self.ignoreScrollViewContentInsetTop ? 0 : -self.initInsetTop, width: self.sv!.frame.size.width, height: self.refreshResultHeight)
+        resultLabel.frame = CGRect(x: self.sv!.frame.origin.x,
+                                   y: self.ignoreScrollViewContentInsetTop ? 0 : -self.initInsetTop,
+                                   width: self.sv!.frame.size.width,
+                                   height: self.refreshResultHeight)
         self.sv?.addSubview(resultLabel)
         return resultLabel
     }()
@@ -278,9 +281,9 @@ open class TGRefreshSwift: UIControl {
             self.backgroundColor = self.bgColor ?? self.sv?.backgroundColor
             //self.backgroundColor = randomColor()//测试代码
             self.frame = CGRect(x: 0,
-                                            y: self.ignoreScrollViewContentInsetTop  ? -refreshHeight : -refreshHeight-initInsetTop,
-                                            width: fatherView.bounds.width,
-                                            height:refreshHeight)
+                                y: self.ignoreScrollViewContentInsetTop  ? -refreshHeight : -refreshHeight-initInsetTop,
+                                width: fatherView.bounds.width,
+                                height:refreshHeight)
             self.clipsToBounds = true
             fatherView.addObserver(self, forKeyPath: "contentOffset", options: .new, context: nil)//options: []
         }
@@ -294,15 +297,17 @@ open class TGRefreshSwift: UIControl {
                 case .Refreshing:
                     if (!animating){
                         animating = true
-                        self.sv?.contentInset.top += self.refreshHeight
-                        self.innerImageView.isHidden = true
-                        self.deltaH = -self.kScreenH
-                        self.setNeedsDisplay()
-                        UIView.animate(withDuration: 0.25, animations: {
-                            self.sv?.contentOffset = CGPoint(x: 0, y: -(self.refreshHeight + self.initInsetTop))
+                        UIView.animate(withDuration: 0.125, animations: {
+                            self.sv?.contentInset.top += self.refreshHeight
+                        })
+                        UIView.animate(withDuration: 0.125, animations: {
+                            self.innerImageView.isHidden = true
+                            self.deltaH = -self.kScreenH
+                            self.setNeedsDisplay()
                         }, completion: { (_) in
                             self.animating = false
                             self.refreshing = true
+                            self.sv?.contentOffset = CGPoint(x: 0, y: -(self.refreshHeight + self.initInsetTop))
                             self.tipLabel.text = self.refreshingStr
                             self.tipLabel.isHidden = false
                             self.tipIndicator.isHidden = true
@@ -479,7 +484,7 @@ open class TGRefreshSwift: UIControl {
                         self.refreshState = .Normal
                         if (self.refreshResultStr.characters.count > 0){
                             self.resultLabel.font = UIFont.systemFont(ofSize: self.resultLabelFontSize)
-                            self.resultLabel.alpha = 0.5
+                            self.resultLabel.alpha = 0
                             self.resultLabel.transform = CGAffineTransform(translationX: 0, y: -self.refreshResultHeight)
                             self.resultLabel.text = self.refreshResultStr
                             
