@@ -211,6 +211,7 @@ open class TGRefreshSwift: UIControl {
         let tipindicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: self.refreshHeight * 0.5, height: self.refreshHeight * 0.5),
                                            type:self.indicatorNormalStyle,
                                            color:self.tinColor)
+        tipindicator.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         tipindicator.isHidden = true
         self.addSubview(tipindicator)
         return tipindicator
@@ -335,7 +336,7 @@ open class TGRefreshSwift: UIControl {
                         self.sv?.contentInset.top -= refreshHeight
                         self.sv?.contentOffset = CGPoint(x: 0, y: -initInsetTop)
                     }
-                    UIView.animate(withDuration: 0.25, animations: {
+                    UIView.animate(withDuration: 0.1, animations: {
                         self.tipIndicator.transform = CGAffineTransform.identity
                     })
                 case .Pulling:
@@ -343,7 +344,7 @@ open class TGRefreshSwift: UIControl {
                     tipIndicator.isHidden = false
                     tipLabel.isHidden = false
                     indicator.stopAnimating()
-                    UIView.animate(withDuration: 0.25, animations: {
+                    UIView.animate(withDuration: 0.1, animations: {
                         self.tipIndicator.transform = CGAffineTransform.init(rotationAngle: CGFloat(Double.pi + 0.001))
                     })
                 case .Refreshing:

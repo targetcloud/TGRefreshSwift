@@ -12,7 +12,7 @@ class TGLineOrderbyAsc: TGIndicatorDelegate {
     func setupAnimation(in layer: CALayer, size: CGSize, color: UIColor) {
         let lineSize = size.width / 7
         let x = (layer.bounds.size.width - size.width) / 2
-        let y = (layer.bounds.size.height - size.height) / 2 + size.height * 0.1
+        let y = (layer.bounds.size.height - size.height) / 2 + size.height * 0.2
         let duration: CFTimeInterval = 1
         let beginTime = CACurrentMediaTime()
         let beginTimes = [0.1, 0.2, 0.3, 0.4, 0.5]
@@ -30,10 +30,10 @@ class TGLineOrderbyAsc: TGIndicatorDelegate {
         
         // Draw lines
         for i in 0 ..< 3 {
-            let line = TGIndicatorShape.line.layerWith(size: CGSize(width: size.height * 0.3 + lineSize * 2 * CGFloat(i), height: lineSize), color: color)
-            let frame = CGRect(x: x + lineSize * CGFloat(3 - i),
+            let line = TGIndicatorShape.line.layerWith(size: CGSize(width: size.height * 0.3 + lineSize * CGFloat(i), height: lineSize), color: color)
+            let frame = CGRect(x: x + lineSize * 0.5 * CGFloat(3 - i),
                                y: y + lineSize * 2 * CGFloat(i),
-                               width: size.height * 0.3 + lineSize * 2 * CGFloat(i),
+                               width: size.height * 0.3 + lineSize * CGFloat(i),
                                height: lineSize)
             
             animation.beginTime = beginTime + beginTimes[i]
