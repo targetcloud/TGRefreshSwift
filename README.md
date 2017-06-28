@@ -1,7 +1,7 @@
 <img src="https://github.com/targetcloud/TGRefreshSwift/blob/master/Banners.png" width = "12%" hight = "12%"/>
 
   ## TGRefreshSwift
-弹簧、橡皮筋下拉刷新控件，类似QQ下拉刷新控件，但比QQ 更强，同时支持其他样式，目前总共2种样式，后续不断添加中...
+下拉刷新控件，含弹簧、橡皮筋样式（类似QQ下拉刷新控件，但比QQ 更强），同时支持其他样式，可DIY刷新前中后各状态下的动画...
 
 ![Swift](https://img.shields.io/badge/Swift-3.0-orange.svg)
 ![Build](https://img.shields.io/badge/build-passing-green.svg)
