@@ -1,7 +1,7 @@
 <img src="https://github.com/targetcloud/TGRefreshSwift/blob/master/Banners.png" width = "12%" hight = "12%"/>
 
   ## TGRefreshSwift
-弹簧、橡皮筋下拉刷新控件，类似QQ下拉刷新控件，但比QQ 更强，同时支持其他样式，目前总共2种样式，后续不断添加中...
+下拉刷新控件，含弹簧、橡皮筋样式（类似QQ下拉刷新控件，但比QQ 更强），同时支持其他样式，可DIY刷新前中后各状态下的动画...
 
 ![Swift](https://img.shields.io/badge/Swift-3.0-orange.svg)
 ![Build](https://img.shields.io/badge/build-passing-green.svg)
@@ -65,10 +65,14 @@ self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(ref
 ```swift
     self.tv.tg_header = TGRefreshSwift.refresh(self, #selector(loadDataSenior)){(refresh) in
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
-                .tg_fadeinTime(2)
+                .tg_kind(.Common)
+                .tg_tinColor(UIColor.green)
+                .tg_fadeinTime(1)
+                .tg_fadeoutTime(0.5)
                 .tg_verticalAlignment(.Midden)
-                .tg_fadeoutTime(1)
-                .tg_bgColor(UIColor(white:0.8,alpha:1))
+                .tg_indicatorRefreshingStyle(.lineCursor)
+                .tg_indicatorNormalStyle(.lineOrderbyAsc)
+                .tg_bgColor(UIColor(white:1,alpha:1))
         }
 ```
 
@@ -82,13 +86,14 @@ UIImageView(image: UIImage(named: "profile_cover_background"))
             refresh.tg_refreshResultBgColor(UIColor.orange.withAlphaComponent(0.8))
                 .tg_verticalAlignment(.Midden)
                 .tg_tinColor(UIColor.white)
-                .tg_tipLabelFontSize(13)
-                .tg_resultLabelFontSize(15)
-                .tg_tipFailStyle(.tipInfoWhite)
-                .tg_tipOKStyle(.tipOKWhite)
+                .tg_tipLabelFontSize(12)
+                .tg_resultLabelFontSize(13)
+                .tg_tipFailStyle(.ballScale)
+                .tg_tipOKStyle(.ballScale)
+                .tg_indicatorRefreshingStyle(.orbit)
                 .tg_fadeinTime(1)
                 .tg_fadeoutTime(0.5)
-                .tg_bgColor(UIColor(white:0.8,alpha:1))
+                .tg_bgColor(UIColor(white:0.5,alpha:1))
         }
 ```
 
