@@ -18,9 +18,8 @@ class ViewController: UIViewController {
     fileprivate var isPullUp = false
     lazy var footIndicatorView: TGIndicatorView = {
         let indicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: 20, height: 20),
-                                        type:.lineScalePulseOut,
-                                        color:UIColor.orange)
-        indicator.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                                        type:.lineScalePulseOut)
+        indicator.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         return indicator
     }()
     
@@ -65,7 +64,7 @@ class ViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
             let isSuccess = arc4random_uniform(3) % 2 == 0
             let count = isSuccess ? arc4random_uniform(10)+1 : 0
-            self.isPullUp ? (self.dataCount += count>0 ? Int(count) : self.dataCount) : (self.dataCount = count>0 ? Int(count) : self.dataCount)
+            self.isPullUp ? (self.dataCount += Int(count)) : (self.dataCount = count>0 ? Int(count) : self.dataCount)
             !self.isPullUp ? self.tv.tg_header?.refreshResultStr = count>0 ? "成功刷新到\(count)条数据,来自TGRefreshSwift" : "请先在Github上Star本控件:-）" : ()
             !self.isPullUp ? self.tv.tg_header?.isSuccess = isSuccess : ()
             isSuccess ? self.tv.reloadData() : ()
@@ -249,6 +248,7 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
             scrollView.contentSize.height - self.tv.frame.size.height - scrollView.contentOffset.y <= 0 &&
             !isPullUp &&
             !footIndicatorView.isAnimating{
+            footIndicatorView.color = TGRefreshSwift.randomColor()
             footIndicatorView.type = TGIndicatorType(rawValue: Int(arc4random_uniform(UInt32(TGIndicatorType.allTypes.count - 1))) + 1)!
             footIndicatorView.startAnimating()
             isPullUp = true

@@ -689,7 +689,7 @@ open class TGRefreshSwift: UIControl {
     }
     
     //测试代码
-    private func randomColor() -> UIColor {
+    public class func randomColor() -> UIColor {
         let r = CGFloat(arc4random() % 256) / 255.0
         let g = CGFloat(arc4random() % 256) / 255.0
         let b = CGFloat(arc4random() % 256) / 255.0
