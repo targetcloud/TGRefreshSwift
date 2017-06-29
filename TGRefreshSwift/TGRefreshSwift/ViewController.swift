@@ -15,6 +15,14 @@ class ViewController: UIViewController {
     
     fileprivate let identifier = "cell"
     fileprivate var dataCount: Int = 10
+    fileprivate var isPullUp = false
+    lazy var footIndicatorView: TGIndicatorView = {
+        let indicator = TGIndicatorView(frame:CGRect(x: 0, y: 0, width: 20, height: 20),
+                                        type:.lineScalePulseOut,
+                                        color:UIColor.orange)
+        indicator.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        return indicator
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +32,9 @@ class ViewController: UIViewController {
         tv.allowsSelection = false
         
         self.automaticallyAdjustsScrollViewInsets=false
+        
+        tv.tableFooterView = footIndicatorView
+        
         
         //一般用法
         //builderOrdinary()
@@ -41,7 +52,7 @@ class ViewController: UIViewController {
     @objc fileprivate func loadData(){
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
             let isSuccess = arc4random_uniform(3) % 2 == 0
-            let count = isSuccess ? arc4random_uniform(20)+1 : 0
+            let count = isSuccess ? arc4random_uniform(10)+1 : 0
             self.dataCount = count>0 ? Int(count) : self.dataCount
             self.refreshCtl?.refreshResultStr = count>0 ? "成功刷新到\(count)条数据" : "没有更新数据"
             self.refreshCtl?.isSuccess = isSuccess
@@ -53,12 +64,14 @@ class ViewController: UIViewController {
     @objc fileprivate func loadDataSenior(){
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+2) {
             let isSuccess = arc4random_uniform(3) % 2 == 0
-            let count = isSuccess ? arc4random_uniform(20)+1 : 0
-            self.dataCount = count>0 ? Int(count) : self.dataCount
-            self.tv.tg_header?.refreshResultStr = count>0 ? "成功刷新到\(count)条数据,来自TGRefreshSwift" : "请先在Github上Star本控件:-）"
-            self.tv.tg_header?.isSuccess = isSuccess
+            let count = isSuccess ? arc4random_uniform(10)+1 : 0
+            self.isPullUp ? (self.dataCount += count>0 ? Int(count) : self.dataCount) : (self.dataCount = count>0 ? Int(count) : self.dataCount)
+            !self.isPullUp ? self.tv.tg_header?.refreshResultStr = count>0 ? "成功刷新到\(count)条数据,来自TGRefreshSwift" : "请先在Github上Star本控件:-）" : ()
+            !self.isPullUp ? self.tv.tg_header?.isSuccess = isSuccess : ()
             isSuccess ? self.tv.reloadData() : ()
-            self.tv.tg_header?.endRefreshing()
+            !self.isPullUp ? self.tv.tg_header?.endRefreshing() : ()
+            self.isPullUp ? self.footIndicatorView.stopAnimating() : ()
+            self.isPullUp = false//恢复标记
         }
     }
 }
@@ -230,5 +243,16 @@ extension ViewController: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y > 0 &&
+            scrollView.contentSize.height - self.tv.frame.size.height - scrollView.contentOffset.y <= 0 &&
+            !isPullUp &&
+            !footIndicatorView.isAnimating{
+            footIndicatorView.type = TGIndicatorType(rawValue: Int(arc4random_uniform(UInt32(TGIndicatorType.allTypes.count - 1))) + 1)!
+            footIndicatorView.startAnimating()
+            isPullUp = true
+            loadDataSenior()
+        }
+    }
 }
-
