@@ -10,7 +10,7 @@
 ![Cocoapod](https://img.shields.io/badge/pod-v0.0.6-blue.svg)
 
 
-## OC version
+## OC Version
 https://github.com/targetcloud/TGRefreshOC
 
 
