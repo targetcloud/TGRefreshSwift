@@ -270,7 +270,7 @@ pod 'TGRefreshSwift'
 ## Reference
 - http://blog.csdn.net/callzjy
 - https://github.com/targetcloud/baisibudejie
-- https://github.com/targetcloud/TGLabel <img src="https://github.com/targetcloud/TGLabel/blob/master/logo.png" width = "8%" hight = "8%"/>
+- https://github.com/targetcloud/TGLabel <img src="https://github.com/targetcloud/TGLabel/blob/master/Banners.png" width = "8%" hight = "8%"/>
 - https://github.com/targetcloud/TGImage <img src="https://github.com/targetcloud/TGImage/blob/master/snapShot/Banners.png" width = "12%" hight = "12%"/>
 
 如果你觉得赞，请Star
